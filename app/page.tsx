@@ -3,23 +3,33 @@
 import Image from "next/image";
 import { useState } from "react";
 
+export const runtime = "edge";
+
 export default function Home() {
   const [code, setCode] = useState("");
+  const [message, setMessage] = useState<string>("");
 
-  const handleSend = async () => {
-    const url = `https://ceis-api.fly.dev/user/filters?token=eyJ0b2tlbiI6ImJyaXRlQXBwIn0`;
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-    fetch(url, {
-      method: "GET", // o POST si corresponde
+    // Llama a la función insertEmail mediante la llamada a la API
+    const response = await fetch("/api/quota", {
+      method: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Error:", error));
-  };
+      body: JSON.stringify({ code }),
+    });
+
+    if (response.ok) {
+      setMessage("Cupo enviado con éxito!");
+      setCode(""); // Limpia el campo de entrada
+    } else {
+      const error = await response.json();
+      setMessage(`Error: comunicate con el staff`);
+      console.log(setMessage(`Error: ${error.message}`));
+    }
+  }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -40,20 +50,21 @@ export default function Home() {
           <li>Ingresa y envia el codigo otorgado</li>
         </ol>
 
-        <div className="flex gap-4 items-center flex-col w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex gap-4 items-center flex-col w-full"
+        >
           <input
             placeholder="NC3I524PAf"
             value={code}
             onChange={(e) => setCode(e.target.value)}
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center border-black text-background gap-2 text-black text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          ></input>
-          <button
-            onClick={handleSend}
-            className="rounded-full border border-solid border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-          >
+          />
+          <button className="rounded-full border border-solid border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44">
             Enviar →
           </button>
-        </div>
+          <p className="text-sm text-center mt-4">{message}</p>
+        </form>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
