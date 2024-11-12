@@ -41,13 +41,23 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Obten tu codigo unico con el{" "}
+            Obtén tu código único con el{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
               staff
             </code>
             .
+            <ul className="list-inside list-disc ml-6 mt-2 text-gray-500 text-xs">
+              <li>SANTILLAN VASQUEZ, Victor Brackson</li>
+              <li>RIVERA MORETO, Jhenrry</li>
+              <li>GONZALES MORI, David Lincol</li>
+              <li>EDQUEN BARBOZA, Wilmer Alexander</li>
+              <li>ARCE TUESTA, Carlos Sebastian</li>
+              <li>FERNANDEZ CARRASCO, Jeyner Jahir</li>
+              <li>OBLITAS DIAZ, Helen</li>
+              <li>PANDURO RENGIFO, Josue</li>
+            </ul>
           </li>
-          <li>Ingresa y envia el codigo otorgado</li>
+          <li>Ingresa y envía el código otorgado</li>
         </ol>
 
         <form
